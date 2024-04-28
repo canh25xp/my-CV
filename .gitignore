@@ -1,4 +1,5 @@
-build
+build/*
+!build/*.pdf
 
 ### TeX ###
 ## Core latex/pdflatex auxiliary files:
