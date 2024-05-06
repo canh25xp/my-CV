@@ -21,7 +21,9 @@ modifyLineBreaks:
     sentencesBeginWith:
       A-Z: 1                            # 0/1
       a-z: 0                            # 0/1
-      other: 0                          # regex
+      other: |-                         # regex
+        (?x)
+        \\item
     sentencesEndWith:
       basicFullStop: 0                  # 0/1
       betterFullStop: 1                 # 0/1
@@ -29,7 +31,7 @@ modifyLineBreaks:
       questionMark: 1                   # 0/1
       other: 0                          # regex
     sentencesDoNOTcontain:
-      other: |-                          # regex
+      other: |-                         # regex
         (?x)
         \\begin
         |
@@ -54,6 +56,10 @@ fineTuning:
             (?:etc)                       # etc
             |                             #
             (?:[wW]\.[rR]\.[tT])          # w.r.t OR W.r.t OR w.R.t OR w.r.T OR W.R.t OR W.r.T OR w.R.T OR W.R.T
+            |                             #
+            (?:et\sal\.)                  # et al.
+            |                             #
+            (?:[bB]\.[sS])                # i.e OR I.e OR i.E OR I.E
           )                               #
         )                                 #
       )                                   #
