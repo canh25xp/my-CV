@@ -1,0 +1,42 @@
+name: Release myCV
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.0.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    container: texlive/texlive:latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install fonts
+        run: |
+          apt update
+          apt install --yes \
+            fonts-roboto \
+            fonts-adobe-sourcesans3 \
+            ;
+
+      - name: Compile myCV.tex
+        run: make myCV.pdf
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          files: myCV.pdf
+          generate_release_notes: true

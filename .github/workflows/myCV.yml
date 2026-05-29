@@ -1,0 +1,44 @@
+name: Build myCV
+
+on:
+  push:
+    paths:
+      - 'myCV.tex'
+      - 'myCV/**'
+      - 'awesome-cv.cls'
+      - 'Makefile'
+      - '.github/workflows/myCV.yml'
+  pull_request:
+    paths:
+      - 'myCV.tex'
+      - 'myCV/**'
+      - 'awesome-cv.cls'
+      - 'Makefile'
+      - '.github/workflows/myCV.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: texlive/texlive:latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install fonts
+        run: |
+          apt update
+          apt install --yes \
+            fonts-roboto \
+            fonts-adobe-sourcesans3 \
+            ;
+
+      - name: Compile myCV.tex
+        run: make myCV.pdf
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: myCV
+          path: myCV.pdf
