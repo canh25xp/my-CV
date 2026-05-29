@@ -3,7 +3,7 @@ name: Release myCV
 on:
   push:
     tags:
-      - 'v*'
+    - 'v*'
   workflow_dispatch:
     inputs:
       tag:
@@ -20,23 +20,23 @@ jobs:
     container: texlive/texlive:latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
+    - name: Checkout repository
+      uses: actions/checkout@v6
 
-      - name: Install fonts
-        run: |
-          apt update
-          apt install --yes \
-            fonts-roboto \
-            fonts-adobe-sourcesans3 \
-            ;
+    - name: Install fonts
+      run: |
+        apt update
+        apt install --yes \
+          fonts-roboto \
+          fonts-adobe-sourcesans3 \
+          ;
 
-      - name: Compile myCV.tex
-        run: make myCV.pdf
+    - name: Compile myCV.tex
+      run: make myCV.pdf
 
-      - name: Publish release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
-          files: myCV.pdf
-          generate_release_notes: true
+    - name: Publish release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+        files: myCV.pdf
+        generate_release_notes: true
